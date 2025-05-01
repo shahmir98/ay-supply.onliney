@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>A&Y Supply with Rain Animation</title>
+  <title>A&Y Supply</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <style>
   * {
     margin: 0;
@@ -168,11 +169,15 @@
 </head>
 <body>
 
-  <!-- Rain Animation -->
-  <div class="rain"></div>
+  <!-- Welcome Section -->
   <div class="container">
     <h1>Welcome to A&Y Supply</h1>
     <p>We supply your everyday essentials – from stationery to food.<br>Stay tuned for something amazing!</p>
+    <div class="icons">
+      <div class="icon">✏️</div>
+      <div class="icon">📓</div>
+      <div class="icon">🍽️</div> <!-- Changed to a catering food icon -->
+    </div>
   </div>
 
   <!-- Team Section -->
@@ -184,26 +189,44 @@
         <div class="team-title">Founder</div>
         <p>Mohd Yusrie</p>
       </div>
-      <!-- Add other team members here -->
+      <div class="team-member">
+        <img src="images/asyraf.jpg" alt="Muhammad Asyraf Akmal" class="team-img" />
+        <div class="team-title">Co-Founder</div>
+        <p>Muhammad Asyraf Akmal</p>
+      </div>
+      <div class="team-member">
+        <img src="images/shahmir.jpg" alt="Shahmir" class="team-img" />
+        <div class="team-title">Chief Technology Officer</div>
+        <p>Shahmir</p>
+      </div>
+      <div class="team-member">
+        <img src="images/jason.jpg" alt="Jason Nazreel" class="team-img" />
+        <div class="team-title">Chief Operating Officer</div>
+        <p>Jason Nazreel</p>
+      </div>
+      <div class="team-member">
+        <img src="images/sharfezam.jpg" alt="Sharfezam" class="team-img" />
+        <div class="team-title">Driver</div>
+        <p>Sharfezam</p>
+      </div>
     </div>
   </section>
 
-  <script>
-    // Add rain drops
-    function createRain() {
-      const rainContainer = document.querySelector('body');
-      for (let i = 0; i < 100; i++) {
-        const raindrop = document.createElement('div');
-        raindrop.classList.add('raindrop');
-        raindrop.style.left = Math.random() * 100 + 'vw';
-        raindrop.style.animationDuration = Math.random() * 1 + 0.5 + 's';
-        raindrop.style.animationDelay = Math.random() * 2 + 's';
-        rainContainer.appendChild(raindrop);
-      }
-    }
-
-    createRain();
-  </script>
+  <!-- Contact Section -->
+  <section id="contact" class="container">
+    <h2>Berminat untuk service kami? Sila contact:</h2>
+    <div class="contact-info">
+      <a href="https://wa.me/60198034539" target="_blank">
+        <i class="fab fa-whatsapp whatsapp-icon"></i><strong> Yun</strong><br />
+        ☎️ <strong>019-8034539</strong>
+      </a>
+    </div>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/share/1C1T9sU3oV/?mibextid=wwXIfr" target="_blank">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </div>
+  </section>
 
 </body>
 </html>
