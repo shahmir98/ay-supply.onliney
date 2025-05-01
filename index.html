@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>A&Y Supply</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <style>
     * {
@@ -14,10 +14,10 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #2c3e50, #bdc3c7); /* Updated background */
-      color: #fff;
-      transition: background 1s ease;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
     }
 
     .container {
@@ -25,24 +25,17 @@
       margin: 0 auto;
       padding: 60px 20px;
       text-align: center;
-      animation: fadeIn 1s ease-in-out;
     }
 
     h1, h2 {
-      color: #fff;
+      color: #2b6cb0;
       margin-bottom: 20px;
-      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
     }
 
     p {
       font-size: 1.1em;
       margin-bottom: 30px;
-    }
-
-    .logo {
-      width: 120px;
-      height: auto;
-      margin-bottom: 20px;
     }
 
     .icons {
@@ -54,23 +47,20 @@
 
     .icon {
       font-size: 3rem;
-      animation: float 2s infinite ease-in-out;
+      transition: transform 0.3s;
     }
 
-    .icon:nth-child(2) { animation-delay: 0.3s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    .icon:hover {
+      transform: scale(1.1);
     }
 
     section {
       padding: 60px 20px;
-      background: rgba(255, 255, 255, 0.9);
+      background: white;
       margin: 40px 0;
       border-radius: 16px;
       box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-      animation: fadeInSection 1.5s ease-in-out;
+      animation: fadeIn 1s ease-in-out;
     }
 
     @keyframes fadeIn {
@@ -78,53 +68,42 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes fadeInSection {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* TEAM SECTION */
     .team {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 30px;
       margin-top: 20px;
     }
 
     .team-member {
-      background: #f7faff;
+      background: #ffffff;
       padding: 20px;
       border-radius: 12px;
       transition: transform 0.3s, box-shadow 0.3s;
-      opacity: 0;
-      animation: fadeInMember 2s forwards;
-    }
-
-    @keyframes fadeInMember {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .team-member:hover {
       transform: translateY(-10px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
 
-    .team-img {
-      width: 100%;
-      height: 250px;
-      object-fit: contain;
-      background-color: white;
-      margin: 0 auto 10px auto;
-      display: block;
-      border-radius: 8px;
-    }
+.team-img {
+  width: 100%; /* Set to 100% of the container */
+  height: 250px; /* Fixed height for uniform frame size */
+  object-fit: contain; /* Ensure full image visibility without distortion */
+  background-color: white;
+  margin: 0 auto 10px auto;
+  display: block;
+  border-radius: 8px;
+}
+
+
 
     .team-title {
       font-weight: 600;
       font-size: 1.1rem;
       margin-top: 5px;
-      color: #2980b9;
+      color: #2b6cb0;
     }
 
     .contact-info {
@@ -134,6 +113,7 @@
       border-radius: 12px;
       display: inline-block;
       animation: pulse 1.5s infinite;
+      margin-bottom: 20px;
     }
 
     @keyframes pulse {
@@ -170,15 +150,9 @@
       transform: scale(1.2);
     }
 
-    /* Button Hover Animation */
-    .contact-info a {
+    a {
       text-decoration: none;
       color: inherit;
-      transition: color 0.3s ease;
-    }
-
-    .contact-info a:hover {
-      color: #2980b9;
     }
 
     @media (max-width: 500px) {
@@ -196,13 +170,14 @@
 </head>
 <body>
 
+  <!-- Welcome Section -->
   <div class="container">
     <h1>Welcome to A&Y Supply</h1>
     <p>We supply your everyday essentials – from stationery to food.<br>Stay tuned for something amazing!</p>
     <div class="icons">
       <div class="icon">✏️</div>
       <div class="icon">📓</div>
-      <div class="icon">🍽️</div>
+      <div class="icon">🍽️</div> <!-- Changed to a catering food icon -->
     </div>
   </div>
 
