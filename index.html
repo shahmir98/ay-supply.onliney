@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>A&Y Supply</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <style>
     * {
@@ -14,9 +14,10 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f4;
       color: #333;
+      line-height: 1.6;
     }
 
     .container {
@@ -29,17 +30,12 @@
     h1, h2 {
       color: #2b6cb0;
       margin-bottom: 20px;
+      font-family: 'Montserrat', sans-serif;
     }
 
     p {
       font-size: 1.1em;
       margin-bottom: 30px;
-    }
-
-    .logo {
-      width: 120px;
-      height: auto;
-      margin-bottom: 20px;
     }
 
     .icons {
@@ -51,14 +47,11 @@
 
     .icon {
       font-size: 3rem;
-      animation: float 2s infinite ease-in-out;
+      transition: transform 0.3s;
     }
 
-    .icon:nth-child(2) { animation-delay: 0.3s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    .icon:hover {
+      transform: scale(1.1);
     }
 
     section {
@@ -77,13 +70,13 @@
 
     .team {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 30px;
       margin-top: 20px;
     }
 
     .team-member {
-      background: #f7faff;
+      background: #ffffff;
       padding: 20px;
       border-radius: 12px;
       transition: transform 0.3s, box-shadow 0.3s;
@@ -97,11 +90,11 @@
     .team-img {
       width: 200px;
       height: 200px;
-      object-fit: contain;
-      background-color: white;
-      margin: 0 auto 10px auto;
+      object-fit: cover;
+      background-color: #e6f0ff;
+      margin: 0 auto 10px;
       display: block;
-      border-radius: 8px;
+      border-radius: 50%;
     }
 
     .team-title {
@@ -118,6 +111,7 @@
       border-radius: 12px;
       display: inline-block;
       animation: pulse 1.5s infinite;
+      margin-bottom: 20px;
     }
 
     @keyframes pulse {
@@ -154,6 +148,11 @@
       transform: scale(1.2);
     }
 
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     @media (max-width: 500px) {
       .icon { font-size: 2rem; }
       .team-img {
@@ -169,16 +168,18 @@
 </head>
 <body>
 
+  <!-- Welcome Section -->
   <div class="container">
     <h1>Welcome to A&Y Supply</h1>
     <p>We supply your everyday essentials – from stationery to food.<br>Stay tuned for something amazing!</p>
     <div class="icons">
       <div class="icon">✏️</div>
       <div class="icon">📓</div>
-      <div class="icon">🍽️</div>
+      <div class="icon">🍽️</div> <!-- Changed to a catering food icon -->
     </div>
   </div>
 
+  <!-- Team Section -->
   <section id="team" class="container">
     <h2>Meet Our Team</h2>
     <div class="team">
@@ -210,6 +211,7 @@
     </div>
   </section>
 
+  <!-- Contact Section -->
   <section id="contact" class="container">
     <h2>Berminat untuk service kami? Sila contact:</h2>
     <div class="contact-info">
