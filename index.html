@@ -87,15 +87,16 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
 
-    .team-img {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      background-color: #e6f0ff;
-      margin: 0 auto 10px;
-      display: block;
-      border-radius: 50%;
-    }
+.team-img {
+  width: 100%; /* Set to 100% of the container */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the frame without distorting the image */
+  background-color: white;
+  margin: 0 auto 10px auto;
+  display: block;
+  border-radius: 8px;
+}
+
 
     .team-title {
       font-weight: 600;
