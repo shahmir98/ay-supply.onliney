@@ -374,6 +374,108 @@
     animation-delay: 0.6s;
   }
 
+  /* Game Modal Styles */
+  .game-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .game-container {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  .game-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary);
+    margin-bottom: 15px;
+  }
+  
+  #gameCanvas {
+    background: #f1f5f9;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    display: block;
+    margin: 0 auto;
+    touch-action: manipulation;
+  }
+  
+  .game-controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .game-button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .game-button:hover {
+    background-color: var(--secondary);
+    transform: translateY(-3px);
+  }
+  
+  .game-score {
+    font-weight: 600;
+    margin: 15px 0;
+    font-size: 1.2rem;
+  }
+  
+  .close-game {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+  
+  /* Floating Game Button */
+  .play-game-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--accent);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s;
+  }
+  
+  .play-game-btn:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .hero h1 {
@@ -390,6 +492,14 @@
 
     .service-grid, .team-grid {
       grid-template-columns: 1fr;
+    }
+    
+    .play-game-btn {
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+      bottom: 20px;
+      right: 20px;
     }
   }
 </style>
@@ -517,9 +627,9 @@
           </div>
         </div>
         <div class="social-links animate delay-2">
-          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.instagram.com/jnazreel?igsh=dXFjN2w5bnYzcDNv" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
           <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.linkedin.com/in/shahmir-azwan-6126361b8/" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
     </div>
@@ -539,6 +649,26 @@
     </div>
   </footer>
 
+  <!-- Floating Game Button -->
+  <div class="play-game-btn" id="playGameBtn">
+    <i class="fas fa-gamepad"></i>
+  </div>
+  
+  <!-- Game Modal -->
+  <div class="game-modal" id="gameModal">
+    <span class="close-game" id="closeGame">&times;</span>
+    <div class="game-container">
+      <h2 class="game-title">Office Supplies Challenge</h2>
+      <p>Catch falling office supplies with your basket!</p>
+      <div class="game-score">Score: <span id="gameScore">0</span></div>
+      <canvas id="gameCanvas" width="400" height="500"></canvas>
+      <div class="game-controls">
+        <button class="game-button" id="startGame">Start</button>
+        <button class="game-button" id="resetGame">Reset</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Simple animation trigger on scroll
     document.addEventListener('DOMContentLoaded', function() {
@@ -557,6 +687,168 @@
         observer.observe(element);
       });
     });
+
+    // Game Implementation
+    const gameModal = document.getElementById('gameModal');
+    const playGameBtn = document.getElementById('playGameBtn');
+    const closeGame = document.getElementById('closeGame');
+    const gameCanvas = document.getElementById('gameCanvas');
+    const ctx = gameCanvas.getContext('2d');
+    const startButton = document.getElementById('startGame');
+    const resetButton = document.getElementById('resetGame');
+    const scoreDisplay = document.getElementById('gameScore');
+    
+    let score = 0;
+    let gameRunning = false;
+    let basket = { x: gameCanvas.width/2 - 50, y: gameCanvas.height - 30, width: 100, height: 20 };
+    let items = [];
+    let animationId;
+    let isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+    // Game items
+    const gameItems = [
+      { emoji: '✏️', points: 10, color: '#2563eb' },
+      { emoji: '📓', points: 15, color: '#10b981' },
+      { emoji: '📌', points: 5, color: '#ef4444' },
+      { emoji: '✂️', points: 8, color: '#f59e0b' }
+    ];
+
+    // Open/close game modal
+    playGameBtn.addEventListener('click', () => {
+      gameModal.style.display = 'flex';
+      // Play game open sound
+      const gameSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-opener-222.mp3');
+      gameSound.volume = 0.3;
+      gameSound.play();
+    });
+    
+    closeGame.addEventListener('click', () => {
+      gameModal.style.display = 'none';
+      if (gameRunning) {
+        gameRunning = false;
+        cancelAnimationFrame(animationId);
+        // Remove event listeners
+        gameCanvas.removeEventListener('mousemove', handleMove);
+        gameCanvas.removeEventListener('touchmove', handleMove);
+      }
+    });
+
+    // Draw basket
+    function drawBasket() {
+      ctx.fillStyle = '#2563eb';
+      ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
+    }
+
+    // Draw falling items
+    function drawItems() {
+      ctx.font = '24px Arial';
+      items.forEach(item => {
+        ctx.fillStyle = item.color;
+        ctx.fillText(item.emoji, item.x, item.y);
+      });
+    }
+
+    // Game update function
+    function updateGame() {
+      ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+      
+      // Create new items randomly
+      if (Math.random() < 0.03) {
+        const itemType = gameItems[Math.floor(Math.random() * gameItems.length)];
+        items.push({
+          emoji: itemType.emoji,
+          x: Math.random() * (gameCanvas.width - 30),
+          y: 0,
+          speed: Math.random() * 3 + 2,
+          points: itemType.points,
+          color: itemType.color
+        });
+      }
+
+      // Move items
+      items.forEach((item, index) => {
+        item.y += item.speed;
+        
+        // Check if caught
+        if (item.y >= basket.y && item.y <= basket.y + basket.height &&
+            item.x >= basket.x && item.x <= basket.x + basket.width) {
+          score += item.points;
+          scoreDisplay.textContent = score;
+          items.splice(index, 1);
+          
+          // Play catch sound
+          const catchSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3');
+          catchSound.volume = 0.3;
+          catchSound.play();
+        }
+        
+        // Remove if missed
+        if (item.y > gameCanvas.height) {
+          items.splice(index, 1);
+        }
+      });
+
+      drawBasket();
+      drawItems();
+      
+      if (gameRunning) {
+        animationId = requestAnimationFrame(updateGame);
+      }
+    }
+
+    // Mouse/touch controls
+    function handleMove(e) {
+      let clientX;
+      
+      if (isMobile && e.type === 'touchmove') {
+        e.preventDefault();
+        clientX = e.touches[0].clientX;
+      } else {
+        clientX = e.clientX;
+      }
+      
+      const rect = gameCanvas.getBoundingClientRect();
+      basket.x = clientX - rect.left - basket.width/2;
+      
+      // Keep basket within canvas
+      if (basket.x < 0) basket.x = 0;
+      if (basket.x > gameCanvas.width - basket.width) {
+        basket.x = gameCanvas.width - basket.width;
+      }
+    }
+
+    // Start game
+    startButton.addEventListener('click', () => {
+      if (!gameRunning) {
+        gameRunning = true;
+        updateGame();
+        
+        // Add event listeners for controls
+        if (isMobile) {
+          gameCanvas.addEventListener('touchmove', handleMove, { passive: false });
+        } else {
+          gameCanvas.addEventListener('mousemove', handleMove);
+        }
+      }
+    });
+
+    // Reset game
+    resetButton.addEventListener('click', () => {
+      gameRunning = false;
+      cancelAnimationFrame(animationId);
+      score = 0;
+      items = [];
+      scoreDisplay.textContent = score;
+      ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+      drawBasket();
+      
+      // Remove event listeners
+      gameCanvas.removeEventListener('mousemove', handleMove);
+      gameCanvas.removeEventListener('touchmove', handleMove);
+    });
+
+    // Initialize game
+    drawBasket();
   </script>
 </body>
 </html>
