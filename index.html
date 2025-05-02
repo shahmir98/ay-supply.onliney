@@ -152,7 +152,7 @@
     color: var(--dark);
   }
 
-  /* Team */
+  /* Team - Adjusted for full face display */
   .team {
     background-color: #f1f5f9;
     text-align: center;
@@ -179,11 +179,17 @@
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   }
 
+  .member-img-container {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+  }
+
   .member-img {
     width: 100%;
-    height: 250px;
+    height: 100%;
     object-fit: cover;
-    display: block;
+    object-position: top center;
   }
 
   .member-info {
@@ -418,6 +424,7 @@
     display: flex;
     justify-content: center;
     gap: 15px;
+    flex-wrap: wrap;
   }
   
   .game-button {
@@ -429,6 +436,7 @@
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s;
+    min-width: 100px;
   }
   
   .game-button:hover {
@@ -436,10 +444,20 @@
     transform: translateY(-3px);
   }
   
-  .game-score {
-    font-weight: 600;
+  .game-info {
+    display: flex;
+    justify-content: space-between;
     margin: 15px 0;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .game-timer {
+    color: var(--accent);
+  }
+  
+  .game-score {
+    color: var(--primary);
   }
   
   .close-game {
@@ -476,6 +494,41 @@
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   }
 
+  /* Player Name Input */
+  .player-input {
+    margin: 15px 0;
+  }
+  
+  .player-input input {
+    padding: 8px 12px;
+    border-radius: 50px;
+    border: 1px solid #ddd;
+    width: 200px;
+    max-width: 100%;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* High Scores */
+  .high-scores {
+    margin-top: 20px;
+    max-height: 150px;
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+  }
+
+  .high-scores h3 {
+    margin-bottom: 10px;
+    color: var(--primary);
+  }
+
+  .score-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px dashed #eee;
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .hero h1 {
@@ -500,6 +553,10 @@
       font-size: 1.2rem;
       bottom: 20px;
       right: 20px;
+    }
+
+    .member-img-container {
+      height: 250px;
     }
   }
 </style>
@@ -549,41 +606,51 @@
     </div>
   </section>
 
-  <!-- Team Section -->
+  <!-- Team Section - Adjusted for full face display -->
   <section class="team">
     <div class="container">
       <h2 class="section-title">Meet Our Team</h2>
       <div class="team-grid">
         <div class="team-member animate">
-          <img src="images/yusrie.jpg" alt="Mohd Yusrie" class="member-img" />
+          <div class="member-img-container">
+            <img src="images/yusrie.jpg" alt="Mohd Yusrie" class="member-img" />
+          </div>
           <div class="member-info">
             <h3 class="member-name">Mohd Yusrie</h3>
             <span class="member-position">Founder</span>
           </div>
         </div>
         <div class="team-member animate delay-1">
-          <img src="images/asyraf.jpg" alt="Muhammad Asyraf Akmal" class="member-img" />
+          <div class="member-img-container">
+            <img src="images/asyraf.jpg" alt="Muhammad Asyraf Akmal" class="member-img" />
+          </div>
           <div class="member-info">
             <h3 class="member-name">Muhammad Asyraf Akmal</h3>
             <span class="member-position">Co-Founder</span>
           </div>
         </div>
         <div class="team-member animate delay-2">
-          <img src="images/shahmir.jpg" alt="Shahmir" class="member-img" />
+          <div class="member-img-container">
+            <img src="images/shahmir.jpg" alt="Shahmir" class="member-img" />
+          </div>
           <div class="member-info">
             <h3 class="member-name">Shahmir</h3>
             <span class="member-position">Chief Technology Officer</span>
           </div>
         </div>
         <div class="team-member animate delay-1">
-          <img src="images/jason.jpg" alt="Jason Nazreel" class="member-img" />
+          <div class="member-img-container">
+            <img src="images/jason.jpg" alt="Jason Nazreel" class="member-img" />
+          </div>
           <div class="member-info">
             <h3 class="member-name">Jason Nazreel</h3>
             <span class="member-position">Chief Operating Officer</span>
           </div>
         </div>
         <div class="team-member animate delay-2">
-          <img src="images/sharfezam.jpg" alt="Sharfezam" class="member-img" />
+          <div class="member-img-container">
+            <img src="images/sharfezam.jpg" alt="Sharfezam" class="member-img" />
+          </div>
           <div class="member-info">
             <h3 class="member-name">Sharfezam</h3>
             <span class="member-position">Logistics Manager</span>
@@ -659,12 +726,27 @@
     <span class="close-game" id="closeGame">&times;</span>
     <div class="game-container">
       <h2 class="game-title">Office Supplies Challenge</h2>
-      <p>Catch falling office supplies with your basket!</p>
-      <div class="game-score">Score: <span id="gameScore">0</span></div>
+      <p>Catch falling office supplies in 30 seconds!</p>
+      
+      <div class="player-input" id="playerInput">
+        <input type="text" id="playerName" placeholder="Enter your name" maxlength="15">
+      </div>
+      
+      <div class="game-info">
+        <div class="game-timer">Time: <span id="gameTimer">30</span>s</div>
+        <div class="game-score">Score: <span id="gameScore">0</span></div>
+      </div>
+      
       <canvas id="gameCanvas" width="400" height="500"></canvas>
+      
       <div class="game-controls">
-        <button class="game-button" id="startGame">Start</button>
-        <button class="game-button" id="resetGame">Reset</button>
+        <button class="game-button" id="startGame">Start Game</button>
+        <button class="game-button" id="resetGame" disabled>Reset</button>
+      </div>
+      
+      <div class="high-scores" id="highScores">
+        <h3>High Scores</h3>
+        <div id="scoreList"></div>
       </div>
     </div>
   </div>
@@ -697,13 +779,20 @@
     const startButton = document.getElementById('startGame');
     const resetButton = document.getElementById('resetGame');
     const scoreDisplay = document.getElementById('gameScore');
+    const timerDisplay = document.getElementById('gameTimer');
+    const playerInput = document.getElementById('playerInput');
+    const playerName = document.getElementById('playerName');
+    const scoreList = document.getElementById('scoreList');
     
     let score = 0;
     let gameRunning = false;
+    let timeLeft = 30;
+    let timer;
     let basket = { x: gameCanvas.width/2 - 50, y: gameCanvas.height - 30, width: 100, height: 20 };
     let items = [];
     let animationId;
     let isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
 
     // Game items
     const gameItems = [
@@ -713,9 +802,27 @@
       { emoji: '✂️', points: 8, color: '#f59e0b' }
     ];
 
+    // Display high scores
+    function displayHighScores() {
+      scoreList.innerHTML = '';
+      highScores.sort((a, b) => b.score - a.score)
+                .slice(0, 5)
+                .forEach((score, index) => {
+        const scoreItem = document.createElement('div');
+        scoreItem.className = 'score-item';
+        scoreItem.innerHTML = `
+          <span>${index + 1}. ${score.name}</span>
+          <span>${score.score}</span>
+        `;
+        scoreList.appendChild(scoreItem);
+      });
+    }
+
     // Open/close game modal
     playGameBtn.addEventListener('click', () => {
       gameModal.style.display = 'flex';
+      displayHighScores();
+      
       // Play game open sound
       const gameSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-opener-222.mp3');
       gameSound.volume = 0.3;
@@ -724,13 +831,7 @@
     
     closeGame.addEventListener('click', () => {
       gameModal.style.display = 'none';
-      if (gameRunning) {
-        gameRunning = false;
-        cancelAnimationFrame(animationId);
-        // Remove event listeners
-        gameCanvas.removeEventListener('mousemove', handleMove);
-        gameCanvas.removeEventListener('touchmove', handleMove);
-      }
+      resetGame();
     });
 
     // Draw basket
@@ -746,6 +847,42 @@
         ctx.fillStyle = item.color;
         ctx.fillText(item.emoji, item.x, item.y);
       });
+    }
+
+    // Update timer
+    function updateTimer() {
+      timeLeft--;
+      timerDisplay.textContent = timeLeft;
+      
+      if (timeLeft <= 0) {
+        endGame();
+      }
+    }
+
+    // End game
+    function endGame() {
+      gameRunning = false;
+      clearInterval(timer);
+      cancelAnimationFrame(animationId);
+      
+      // Add to high scores
+      if (playerName.value.trim() !== '') {
+        highScores.push({
+          name: playerName.value.trim(),
+          score: score
+        });
+        
+        // Save to localStorage
+        localStorage.setItem('highScores', JSON.stringify(highScores));
+        displayHighScores();
+      }
+      
+      // Play game over sound
+      const gameOverSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-game-show-suspense-waiting-668.mp3');
+      gameOverSound.volume = 0.3;
+      gameOverSound.play();
+      
+      resetButton.disabled = false;
     }
 
     // Game update function
@@ -817,10 +954,38 @@
       }
     }
 
+    // Reset game
+    function resetGame() {
+      gameRunning = false;
+      clearInterval(timer);
+      cancelAnimationFrame(animationId);
+      score = 0;
+      timeLeft = 30;
+      items = [];
+      scoreDisplay.textContent = score;
+      timerDisplay.textContent = timeLeft;
+      ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+      drawBasket();
+      
+      // Remove event listeners
+      gameCanvas.removeEventListener('mousemove', handleMove);
+      gameCanvas.removeEventListener('touchmove', handleMove);
+      
+      resetButton.disabled = true;
+    }
+
     // Start game
     startButton.addEventListener('click', () => {
-      if (!gameRunning) {
+      if (!gameRunning && playerName.value.trim() !== '') {
         gameRunning = true;
+        timeLeft = 30;
+        score = 0;
+        scoreDisplay.textContent = score;
+        timerDisplay.textContent = timeLeft;
+        
+        // Start timer
+        timer = setInterval(updateTimer, 1000);
+        
         updateGame();
         
         // Add event listeners for controls
@@ -829,26 +994,19 @@
         } else {
           gameCanvas.addEventListener('mousemove', handleMove);
         }
+        
+        resetButton.disabled = false;
+      } else if (playerName.value.trim() === '') {
+        alert('Please enter your name to play!');
       }
     });
 
-    // Reset game
-    resetButton.addEventListener('click', () => {
-      gameRunning = false;
-      cancelAnimationFrame(animationId);
-      score = 0;
-      items = [];
-      scoreDisplay.textContent = score;
-      ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
-      drawBasket();
-      
-      // Remove event listeners
-      gameCanvas.removeEventListener('mousemove', handleMove);
-      gameCanvas.removeEventListener('touchmove', handleMove);
-    });
+    // Reset button
+    resetButton.addEventListener('click', resetGame);
 
     // Initialize game
     drawBasket();
+    displayHighScores();
   </script>
 </body>
 </html>
